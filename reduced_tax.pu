@@ -1,0 +1,57 @@
+@startuml
+
+entity "tax_categories" {
+    id: int
+    name: varchar
+    start_at: datetime
+}
+note left : 食品、酒など
+
+entity "tax_types" {
+    id: int
+    name: varchar
+    tax_id: int
+    tax_category_id: int
+    reduced_flag: int
+}
+note left : イートイン、テイクアウトなど
+
+entity "tax" {
+    id: int
+    rate: float
+}
+
+entity "items" {
+    id: int
+    name: varchar
+    tax_category_id: int
+}
+
+entity "item_details" {
+    id: int
+    item_id: int
+    sku: string
+    price: int
+}
+
+entity "orders" {
+    id: int
+    amount: int
+}
+
+entity "order_details" {
+    id: int
+    order_id: int
+    item_detail_id: int
+    tax_id: int
+    unit_price: int
+    quantity: int
+}
+
+tax_categories -----{ tax_types
+tax -----{ tax_types
+items }----- tax_categories
+items -----{ item_details
+orders -----{ order_details
+item_details -----{ order_details
+@enduml
